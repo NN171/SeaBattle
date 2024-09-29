@@ -2,38 +2,52 @@ public class FieldGenerator {
 
     private final int height = 10;
     private final int width = 10;
+    private String[][] field = new String[height+1][width+1];
 
     public void generateField() {
-        StringBuilder sb = new StringBuilder();
-
-        System.out.println(generateHeader(sb));
-        sb.delete(0, sb.length());
-
-        printField(generateLine(sb));
+        generateHeader();
+        generateLine();
     }
 
-    private String generateHeader(StringBuilder sb) {
+    private void generateHeader() {
         char header = 'А';
-        for (int i = 0; i < width; i++) {
-            if (i == width - 1) header++;
-            sb.append("\t").append(header++);
+        field[0][0] = "";
+        for (int i = 1; i <= width; i++) {
+            if (i == width) header++;
+            field[0][i] = "\t" + header++;
         }
-
-        return sb.toString();
     }
 
-    private StringBuilder generateLine(StringBuilder sb) {
-        sb.append("1");
-        for (int i = 0; i < width; i++) {
-            sb.append("\t").append("O");
+    private void generateLine() {
+        for (int i = 1; i < width+1; i++) {
+            field[i][0] = Integer.toString(i);
+            for (int j = 1; j < height+1; j++) {
+                field[i][j] = "\t" + "O";
+            }
         }
-
-        return sb;
     }
 
-    private void printField(StringBuilder sb) {
-        for (int i = 1; i <= height; i++) {
-            System.out.println(sb.replace(0, 1, Integer.toString(i)));
+    public void printField() {
+        for (int i = 0; i < height+1; i++) {
+            for (int j = 0; j < width+1; j++) {
+                System.out.print(field[i][j]);
+            }
+            System.out.println();
+        }
+    }
+
+    public void updateField(Ship ship) {
+        int xInit = ship.getInitCoordinates().getX();
+        int yInit = ship.getInitCoordinates().getY();
+        int xFinal = ship.getFinalCoordinates().getX();
+
+        for (int i = 0; i < ship.getLength(); i++) {
+
+            if (xInit == xFinal) {
+                field[xInit][yInit] = field[xInit++][yInit].replace("O", "X");
+            }
+            else
+                field[xInit][yInit] = field[xInit][yInit++].replace("O", "X");
         }
     }
 }

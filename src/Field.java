@@ -5,6 +5,11 @@ public class Field {
 
     private List<Ship> ships;
     private Random rand;
+    private FieldGenerator generator = new FieldGenerator();
+
+    Field() {
+        generator.generateField();
+    }
 
     public void setShip(Ship ship) {
         rand = new Random();
@@ -37,5 +42,10 @@ public class Field {
                 }
             }
         }
+        generator.updateField(ship);
+    }
+
+    public void printField() {
+        generator.printField();
     }
 }
