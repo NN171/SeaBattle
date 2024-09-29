@@ -48,4 +48,8 @@ public class Field {
     public void printField() {
         generator.printField();
     }
+
+    public boolean shoot(Coordinates coordinates) {
+        return generator.shoot(coordinates);
+    }
 }

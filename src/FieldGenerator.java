@@ -50,4 +50,25 @@ public class FieldGenerator {
                 field[xInit][yInit] = field[xInit][yInit++].replace("O", "X");
         }
     }
+
+    public void printClearField() {
+        for (int i = 0; i < height+1; i++) {
+            for (int j = 0; j < width+1; j++) {
+                if (field[i][j].contains("X")) {
+                    System.out.print("\tO");
+                }
+            }
+        }
+    }
+
+    public boolean shoot(Coordinates coordinates) {
+        int x = coordinates.getX();
+        int y = coordinates.getY();
+
+        if (field[x][y].contains("X")) {
+            field[x][y] = field[x][y].replace("X", "H");
+            return true;
+        }
+        return false;
+    }
 }
