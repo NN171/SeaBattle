@@ -7,14 +7,13 @@ public class FieldGenerator {
     public void generateField() {
         generateHeader();
         generateLine();
+        printField();
     }
 
     private void generateHeader() {
-        char header = 'А';
         field[0][0] = "";
-        for (int i = 1; i <= width; i++) {
-            if (i == width) header++;
-            field[0][i] = "\t" + header++;
+        for (int i = 1; i <= width; i++) {;
+            field[0][i] = "\t" + i;
         }
     }
 
@@ -44,10 +43,10 @@ public class FieldGenerator {
         for (int i = 0; i < ship.getLength(); i++) {
 
             if (xInit == xFinal) {
-                field[xInit][yInit] = field[xInit++][yInit].replace("O", "X");
+                field[xInit][yInit] = field[xInit][yInit++].replace("O", "X");
             }
             else
-                field[xInit][yInit] = field[xInit][yInit++].replace("O", "X");
+                field[xInit][yInit] = field[xInit++][yInit].replace("O", "X");
         }
     }
 
@@ -69,6 +68,10 @@ public class FieldGenerator {
             field[x][y] = field[x][y].replace("X", "H");
             return true;
         }
+        else if (field[x][y].contains("O")) {
+            field[x][y] = field[x][y].replace("O", "M");
+        }
+
         return false;
     }
 }

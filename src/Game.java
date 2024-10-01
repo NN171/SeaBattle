@@ -8,50 +8,68 @@ public class Game {
     Scanner sc = new Scanner(System.in);
 
     public Game() {
-        firstPlayer = new Player();
-        secondPlayer = new Player();
+        currentPlayer = firstPlayer;
+        opponent = secondPlayer;
     }
 
     public void startGame() {
         System.out.println("Установка кораблей для Игрока 1");
         System.out.println("Нажмите Enter, чтобы продолжить");
         sc.nextLine();
+
+        firstPlayer = new Player();
+        System.out.println();
         setShips(firstPlayer);
 
         System.out.println("Установка кораблей для Игрока 2");
         System.out.println("Нажмите Enter, чтобы продолжить");
         sc.nextLine();
+
+        secondPlayer = new Player();
+        System.out.println();
         setShips(secondPlayer);
 
         System.out.println("Бой!");
 
-        boolean firstIsAlive = firstPlayer.getAliveShips() > 0;
-        boolean secondIsAlive = secondPlayer.getAliveShips() > 0;
-
-        while (firstIsAlive && secondIsAlive) {
+        while (firstPlayer.isAlive() && secondPlayer.isAlive()) {
             takeShoot();
             switchSides();
         }
 
-        if (firstIsAlive) System.out.println("Игрок 1 выиграл!");
+        if (firstPlayer.isAlive()) System.out.println("Игрок 1 выиграл!");
         else System.out.println("Игрок 2 выиграл!");
     }
 
     private void setShips(Player player) {
         for (int i = 0; i < 10; i++) {
-            System.out.println("Введите координату оси X: ");
-            int x = Integer.parseInt(sc.nextLine());
+            int direction = 1;
+            System.out.print("Введите начальную координату оси X: ");
+            int xInit = Integer.parseInt(sc.nextLine());
 
-            System.out.print("Введите координату оси Y: ");
-            int y = Integer.parseInt(sc.nextLine());
+            System.out.print("Введите начальную координату оси Y: ");
+            int yInit = Integer.parseInt(sc.nextLine());
+
+            if (i < 6) {
+                System.out.print("""
+                        Выберите направление корабля:
+                        1 - Вертикальная
+                        2 - Горизонтальная
+                        """);
+                direction = Integer.parseInt(sc.nextLine());
+            }
+
             int length = firstPlayer.getShipsLength(i);
 
-            Ship ship = new Ship(length, new Coordinates(x+1, y+1));
+            Ship ship = new Ship(length, new Coordinates(yInit, xInit), direction);
             player.getField().setShip(ship);
+            player.getField().printField();
+            System.out.println();
         }
     }
 
     private void takeShoot() {
+        opponent.getField().printOpponentField();
+
         System.out.print("Введите координату оси X: ");
         int x = Integer.parseInt(sc.nextLine());
         System.out.print("Введите координату оси Y: ");

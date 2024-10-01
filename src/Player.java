@@ -18,15 +18,15 @@ public class Player {
         return field;
     }
 
-    public int getAliveShips() {
-        return aliveShips;
-    }
-
     public void destroyShip() {
         aliveShips--;
     }
 
     public int getShipsLength(int index) {
         return shipsLength.get(index);
+    }
+
+    public boolean isAlive() {
+        return aliveShips > 0;
     }
 }
