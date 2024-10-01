@@ -65,28 +65,31 @@ public class Game {
     }
 
     private void takeShoot() {
-        if (currentPlayer.equals(firstPlayer)) System.out.println("Очередь Игрока 1");
-        else System.out.println("Очередь Игрока 2");
-        opponent.getField().printOpponentField();
+        boolean isHit = true;
 
-        System.out.print("Введите координату оси X: ");
-        int x = Integer.parseInt(sc.nextLine());
-        System.out.print("Введите координату оси Y: ");
-        int y = Integer.parseInt(sc.nextLine());
+        while(isHit && opponent.isAlive()) {
+            if (currentPlayer.equals(firstPlayer)) System.out.println("Очередь Игрока 1");
+            else System.out.println("Очередь Игрока 2");
+            opponent.getField().printOpponentField();
 
-        boolean isHit = opponent.getField().shoot(new Coordinates(y, x));
+            System.out.print("Введите координату оси X: ");
+            int x = Integer.parseInt(sc.nextLine());
+            System.out.print("Введите координату оси Y: ");
+            int y = Integer.parseInt(sc.nextLine());
+            System.out.println();
 
-        if (isHit) {
-            System.out.println("Попадание!");
-            for (Ship ship : opponent.getField().getShips()) {
-                if (ship.isDestroyed()) {
-                    System.out.println("Корабль уничтожен!");
-                    opponent.destroyShip();
+            isHit = opponent.getField().shoot(new Coordinates(y, x));
+
+            if (isHit) {
+                System.out.println("Попадание!");
+                for (Ship ship : opponent.getField().getShips()) {
+                    if (!ship.isAlreadyDestroyed() && ship.isDestroyed()) {
+                        System.out.println("Корабль уничтожен!");
+                        opponent.destroyShip();
+                    }
                 }
-            }
-            takeShoot();
+            } else System.out.println("Промах!");
         }
-        else System.out.println("Промах!");
     }
 
     public void switchSides() {

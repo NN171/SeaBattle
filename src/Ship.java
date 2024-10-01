@@ -6,6 +6,7 @@ public class Ship {
     private int direction;
     private boolean[] deckHits;
     private int deckCounter = 0;
+    private boolean destroyed = false;
 
     public Ship(int length, Coordinates initCoordinates, int direction) {
         this.length = length;
@@ -40,16 +41,28 @@ public class Ship {
     }
 
     public boolean isDestroyed() {
+        if (destroyed) {
+            return true;
+        }
+
         for (boolean hit : deckHits) {
             if (!hit) {
                 return false;
             }
         }
+
+        destroyed = true;
         return true;
     }
 
+    public boolean isAlreadyDestroyed() {
+        return destroyed;
+    }
+
     public void hit() {
-        deckHits[deckCounter++] = true;
+        if (deckHits.length > deckCounter) {
+            deckHits[deckCounter++] = true;
+        }
     }
 
     public int getDirection() {
