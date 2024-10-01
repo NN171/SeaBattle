@@ -53,10 +53,10 @@ public class FieldGenerator {
     public void printClearField() {
         for (int i = 0; i < height+1; i++) {
             for (int j = 0; j < width+1; j++) {
-                if (field[i][j].contains("X")) {
-                    System.out.print("\tO");
-                }
+                if (field[i][j].contains("X")) System.out.print("\tO");
+                else System.out.print(field[i][j]);
             }
+            System.out.println();
         }
     }
 

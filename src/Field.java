@@ -41,10 +41,6 @@ public class Field {
             if (isHit(ship, coordinates)) {
                 ship.hit();
             }
-
-            if (ship.isDestroyed()) {
-                System.out.println("Корабль уничтожен!");
-            }
         }
         return generator.shoot(coordinates);
     }
@@ -64,5 +60,9 @@ public class Field {
         else {
             return yInit == y && x >= Math.min(xInit, xFinal) && x <= Math.max(xInit, xFinal);
         }
+    }
+
+    public List<Ship> getShips() {
+        return ships;
     }
 }
